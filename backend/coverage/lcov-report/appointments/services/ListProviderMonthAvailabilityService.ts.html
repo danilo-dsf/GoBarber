@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for users/services/AuthenticateUserService.ts</title>
+    <title>Code coverage report for appointments/services/ListProviderMonthAvailabilityService.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">users/services</a> AuthenticateUserService.ts</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">appointments/services</a> ListProviderMonthAvailabilityService.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/61</span>
+                <span class='fraction'>0/59</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/61</span>
+                <span class='fraction'>0/59</span>
             </div>
         
             
@@ -116,9 +116,7 @@
 <a name='L57'></a><a href='#L57'>57</a>
 <a name='L58'></a><a href='#L58'>58</a>
 <a name='L59'></a><a href='#L59'>59</a>
-<a name='L60'></a><a href='#L60'>60</a>
-<a name='L61'></a><a href='#L61'>61</a>
-<a name='L62'></a><a href='#L62'>62</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L60'></a><a href='#L60'>60</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -177,69 +175,65 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import { sign } from 'jsonwebtoken';</span></span></span>
-<span class="cstat-no" title="statement not covered" >import authConfig from '@config/auth';</span>
-<span class="cstat-no" title="statement not covered" >import { injectable, inject } from 'tsyringe';</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import { injectable, inject } from 'tsyringe';</span></span></span>
+<span class="cstat-no" title="statement not covered" >import { getDaysInMonth, getDate } from 'date-fns';</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >import AppError from '@shared/errors/AppError';</span>
-<span class="cstat-no" title="statement not covered" >import User from '../infra/typeorm/entities/User';</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >import IUsersRepository from '../repositories/IUsersRepository';</span>
-<span class="cstat-no" title="statement not covered" >import IHashProvider from '../providers/HashProvider/models/IHashProvider';</span>
+<span class="cstat-no" title="statement not covered" >import IAppointmentsRepository from '../repositories/IAppointmentsRepository';</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >interface IRequest {</span>
-<span class="cstat-no" title="statement not covered" >  email: string;</span>
-<span class="cstat-no" title="statement not covered" >  password: string;</span>
+<span class="cstat-no" title="statement not covered" >  provider_id: string;</span>
+<span class="cstat-no" title="statement not covered" >  month: number;</span>
+<span class="cstat-no" title="statement not covered" >  year: number;</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >interface IResponse {</span>
-<span class="cstat-no" title="statement not covered" >  user: User;</span>
-<span class="cstat-no" title="statement not covered" >  token: string;</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+<span class="cstat-no" title="statement not covered" >type IResponse = Array&lt;{</span>
+<span class="cstat-no" title="statement not covered" >  day: number;</span>
+<span class="cstat-no" title="statement not covered" >  available: boolean;</span>
+<span class="cstat-no" title="statement not covered" >}&gt;;</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >@injectable()</span>
-<span class="cstat-no" title="statement not covered" >class AuthenticateUserService {</span>
+<span class="cstat-no" title="statement not covered" >class ListProviderMonthAvailabilityService {</span>
 <span class="cstat-no" title="statement not covered" >  constructor(</span>
-<span class="cstat-no" title="statement not covered" >    @inject('UsersRepository')</span>
-<span class="cstat-no" title="statement not covered" >    private usersRepository: IUsersRepository,</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    @inject('HashProvider')</span>
-<span class="cstat-no" title="statement not covered" >    private hashProvider: IHashProvider,</span>
+<span class="cstat-no" title="statement not covered" >    @inject('AppointmentsRepository')</span>
+<span class="cstat-no" title="statement not covered" >    private appointmentsRepository: IAppointmentsRepository,</span>
 <span class="cstat-no" title="statement not covered" >  ) {}</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  public async execute({ email, password }: IRequest): Promise&lt;IResponse&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const user = await this.usersRepository.findByEmail(email);</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    if (!user) {</span>
-<span class="cstat-no" title="statement not covered" >      throw new AppError('Incorrect email/paswword combination.', 401);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    const passwordMatched = await this.hashProvider.compareHash(</span>
-<span class="cstat-no" title="statement not covered" >      password,</span>
-<span class="cstat-no" title="statement not covered" >      user.password,</span>
+<span class="cstat-no" title="statement not covered" >  public async execute({</span>
+<span class="cstat-no" title="statement not covered" >    provider_id,</span>
+<span class="cstat-no" title="statement not covered" >    year,</span>
+<span class="cstat-no" title="statement not covered" >    month,</span>
+<span class="cstat-no" title="statement not covered" >  }: IRequest): Promise&lt;IResponse&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    const appointments = await this.appointmentsRepository.findAllInMonthFromProvider(</span>
+<span class="cstat-no" title="statement not covered" >      {</span>
+<span class="cstat-no" title="statement not covered" >        provider_id,</span>
+<span class="cstat-no" title="statement not covered" >        year,</span>
+<span class="cstat-no" title="statement not covered" >        month,</span>
+<span class="cstat-no" title="statement not covered" >      },</span>
 <span class="cstat-no" title="statement not covered" >    );</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    if (!passwordMatched) {</span>
-<span class="cstat-no" title="statement not covered" >      throw new AppError('Incorrect email/paswword combination.', 401);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" >    const numberOfDaysInMonth = getDaysInMonth(new Date(year, month - 1));</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    const { secret, expiresIn } = authConfig.jwt;</span>
+<span class="cstat-no" title="statement not covered" >    const eachDayArray = Array.from(</span>
+<span class="cstat-no" title="statement not covered" >      { length: numberOfDaysInMonth },</span>
+<span class="cstat-no" title="statement not covered" >      (_, index) =&gt; index + 1,</span>
+<span class="cstat-no" title="statement not covered" >    );</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    const token = sign({}, secret, {</span>
-<span class="cstat-no" title="statement not covered" >      subject: user.id,</span>
-<span class="cstat-no" title="statement not covered" >      expiresIn,</span>
+<span class="cstat-no" title="statement not covered" >    const availability = eachDayArray.map(day =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      const appointmentsInDay = appointments.filter(appointment =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        return getDate(appointment.date) === day;</span>
+<span class="cstat-no" title="statement not covered" >      });</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >      return {</span>
+<span class="cstat-no" title="statement not covered" >        day,</span>
+<span class="cstat-no" title="statement not covered" >        available: appointmentsInDay.length &lt; 10,</span>
+<span class="cstat-no" title="statement not covered" >      };</span>
 <span class="cstat-no" title="statement not covered" >    });</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    return {</span>
-<span class="cstat-no" title="statement not covered" >      user,</span>
-<span class="cstat-no" title="statement not covered" >      token,</span>
-<span class="cstat-no" title="statement not covered" >    };</span>
+<span class="cstat-no" title="statement not covered" >    return availability;</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >export default AuthenticateUserService;</span>
+<span class="cstat-no" title="statement not covered" >export default ListProviderMonthAvailabilityService;</span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
