@@ -15,6 +15,7 @@ import { Container, Content, Background, AnimationContainer } from './styles';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
+import api from '../../services/api';
 
 interface ForgotPasswordFormData {
   email: string;
@@ -40,9 +41,16 @@ const ForgotPassword: React.FC = () => {
           abortEarly: false,
         });
 
-        // recuperacao de senha
+        await api.post('/password/forgot', {
+          email: data.email,
+        });
 
-        // history.push('/dashboard');
+        addToast({
+          type: 'success',
+          title: 'E-mail de recuperação enviado',
+          description:
+            'Enviamos um e-mail para confirmar a recuperação de senha, cheque a sua caixa de entrada.',
+        });
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
