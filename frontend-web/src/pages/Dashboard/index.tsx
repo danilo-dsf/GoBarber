@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { FiPower, FiClock } from 'react-icons/fi';
 import {
@@ -10,6 +10,8 @@ import {
   Schedule,
   Calendar,
   NextAppointment,
+  Section,
+  Appointment,
 } from './styles';
 
 import logoImage from '../../assets/logo.svg';
@@ -17,6 +19,7 @@ import { useAuth } from '../../hooks/auth';
 
 const Dashboard: React.FC = () => {
   const { signOut, user } = useAuth();
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   return (
     <Container>
@@ -62,6 +65,58 @@ const Dashboard: React.FC = () => {
               </span>
             </div>
           </NextAppointment>
+
+          <Section>
+            <strong>Manhã</strong>
+
+            <Appointment>
+              <span>
+                <FiClock />
+                08:00
+              </span>
+
+              <div>
+                <img
+                  src="https://avatars2.githubusercontent.com/u/61921000?s=460&u=711d234772d64afd14a78c057f1b332d0b38afdb&v=4"
+                  alt="Danilo Ferreira"
+                />
+                <strong>Danilo Ferreira</strong>
+              </div>
+            </Appointment>
+            <Appointment>
+              <span>
+                <FiClock />
+                08:00
+              </span>
+
+              <div>
+                <img
+                  src="https://avatars2.githubusercontent.com/u/61921000?s=460&u=711d234772d64afd14a78c057f1b332d0b38afdb&v=4"
+                  alt="Danilo Ferreira"
+                />
+                <strong>Danilo Ferreira</strong>
+              </div>
+            </Appointment>
+          </Section>
+
+          <Section>
+            <strong>Tarde</strong>
+
+            <Appointment>
+              <span>
+                <FiClock />
+                08:00
+              </span>
+
+              <div>
+                <img
+                  src="https://avatars2.githubusercontent.com/u/61921000?s=460&u=711d234772d64afd14a78c057f1b332d0b38afdb&v=4"
+                  alt="Danilo Ferreira"
+                />
+                <strong>Danilo Ferreira</strong>
+              </div>
+            </Appointment>
+          </Section>
         </Schedule>
         <Calendar />
       </Content>
